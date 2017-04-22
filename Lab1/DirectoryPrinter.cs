@@ -14,31 +14,36 @@ namespace Lab1
         {
             this.path = path;
         }
-        private bool isDirectory(String path)
+        private bool isDirectory()
         {
             return System.IO.Directory.Exists(path);
         }
 
-        private bool isFile(String path)
+        private bool isFile()
         {
             return System.IO.File.Exists(path);
         }
 
         public void printDirectory(String path)
         {
-            if (isDirectory(path))
+            if (isDirectory())
             {
-
+                print(path);
+                String[] paths = System.IO.Directory.GetDirectories(path);
+                foreach (String dir in paths)
+                {
+                    printDirectory(dir);
+                }
             }
-            else if (isFile(path))
+            else if (isFile())
             {
 
             }
         }
 
-        public void print()
+        public void print(String path)
         {
-
+            Console.WriteLine(path);
         }
     }
 }
