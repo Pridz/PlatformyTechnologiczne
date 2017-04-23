@@ -34,16 +34,35 @@ namespace Lab1
                 {
                     printDirectory(dir);
                 }
+                String[] files = System.IO.Directory.GetFiles(path);
+                foreach (String file in files)
+                {
+                    print(file);
+                }
             }
             else if (isFile())
             {
-
+                printInformationAboutFilePath();
+            }
+            else
+            {
+                printInformationAboutNotExistingPath();
             }
         }
 
         public void print(String path)
         {
             Console.WriteLine(path);
+        }
+
+        public void printInformationAboutFilePath()
+        {
+            Console.WriteLine("Wrong input! File is under this path! End of program...");
+        }
+
+        public void printInformationAboutNotExistingPath()
+        {
+            Console.WriteLine("Such path doesn't exist! End of program...");
         }
     }
 }
