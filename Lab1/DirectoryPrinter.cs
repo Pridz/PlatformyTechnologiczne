@@ -8,18 +8,22 @@ namespace Lab1
 {
     class DirectoryPrinter
     {
-        private String path;
+        protected String path;
 
+        public DirectoryPrinter()
+        {
+            path = null;
+        }
         public DirectoryPrinter(String path)
         {
             this.path = path;
         }
-        private bool isDirectory()
+        protected bool isDirectory()
         {
             return System.IO.Directory.Exists(path);
         }
 
-        private bool isFile()
+        protected bool isFile()
         {
             return System.IO.File.Exists(path);
         }
@@ -29,16 +33,7 @@ namespace Lab1
             if (isDirectory())
             {
                 print(path);
-                String[] paths = System.IO.Directory.GetDirectories(path);
-                foreach (String dir in paths)
-                {
-                    printDirectory(dir);
-                }
-                String[] files = System.IO.Directory.GetFiles(path);
-                foreach (String file in files)
-                {
-                    print(file);
-                }
+                printInteriorOf(path);
             }
             else if (isFile())
             {
@@ -47,6 +42,20 @@ namespace Lab1
             else
             {
                 printInformationAboutNotExistingPath();
+            }
+        }
+
+        protected void printInteriorOf(String path)
+        {
+            String[] paths = System.IO.Directory.GetDirectories(path);
+            foreach (String dir in paths)
+            {
+                printDirectory(dir);
+            }
+            String[] files = System.IO.Directory.GetFiles(path);
+            foreach (String file in files)
+            {
+                print(file);
             }
         }
 

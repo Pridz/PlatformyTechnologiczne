@@ -13,8 +13,10 @@ namespace Lab1
             Console.WriteLine("Write path to directory to print it's interior.");
             String path = Console.ReadLine();
             Console.WriteLine("");
-            DirectoryPrinter printer = new DirectoryPrinter(path);
-            printer.printDirectory(path);
+            //DirectoryPrinter printer = new DirectoryPrinter(path);
+            //printer.printDirectory(path);
+            TreeDirectoryPrinter treePrinter = new TreeDirectoryPrinter(path, 2);
+            treePrinter.printDirectory(path);
         }
     }
 
