@@ -67,6 +67,63 @@ namespace Lab1
             }
         }
 
+        public static string getAttributes(this FileSystemInfo fileInfo)
+        {
+            if (isDirectory(fileInfo.FullName))
+            {
+                FileAttributes fileAttributes = File.GetAttributes(fileInfo.FullName);
+                char[] newString = new char[4];
+                for (int i = 0; i < newString.Length; i++)
+                {
+                    newString[i] = '-';
+                }
+                if (isReadOnly(fileInfo.FullName))
+                {
+                    newString[0] = 'r';
+                }
+                if (isArchive(fileInfo.FullName))
+                {
+                    newString[1] = 'a';
+                }
+                if (isHidden(fileInfo.FullName))
+                {
+                    newString[2] = 'h';
+                }
+                if (isSystem(fileInfo.FullName))
+                {
+                    newString[3] = 's';
+                }
+                return new string(newString);
+            }
+            else if (isFile(fileInfo.FullName))
+            {
+                FileAttributes fileAttributes = File.GetAttributes(fileInfo.FullName);
+                char[] newString = new char[4];
+                for (int i = 0; i < newString.Length; i++)
+                {
+                    newString[i] = '-';
+                }
+                if (isReadOnly(fileInfo.FullName))
+                {
+                    newString[0] = 'r';
+                }
+                if (isArchive(fileInfo.FullName))
+                {
+                    newString[1] = 'a';
+                }
+                if (isHidden(fileInfo.FullName))
+                {
+                    newString[2] = 'h';
+                }
+                if (isSystem(fileInfo.FullName))
+                {
+                    newString[3] = 's';
+                }
+                return new string(newString);                
+            }
+            return null;
+        }
+
         public static bool isDirectory(string path)
         {
             return Directory.Exists(path);
