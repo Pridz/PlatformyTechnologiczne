@@ -53,6 +53,7 @@ namespace Lab2
             treeView.Items.Clear();
             var root = new TreeViewItem
             {
+                ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmDirTreeView"),
                 Header = dirInfo.Name,
                 Tag = dirInfo.FullName
             };
@@ -62,6 +63,7 @@ namespace Lab2
             {
                 var item = new TreeViewItem
                 {
+                    ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmDirTreeView"),
                     Header = dir.Name,
                     Tag = dir.FullName
                 };
@@ -72,6 +74,7 @@ namespace Lab2
             {
                 var item = new TreeViewItem
                 {
+                    ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmFileTreeView"),
                     Header = file.Name,
                     Tag = file.FullName
                 };
@@ -83,6 +86,7 @@ namespace Lab2
         {
             var root = new TreeViewItem
             {
+                ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmDirTreeView"),
                 Header = dirInfo.Name,
                 Tag = dirInfo.FullName
             };
@@ -92,6 +96,7 @@ namespace Lab2
             {
                 var item = new TreeViewItem
                 {
+                    ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmDirTreeView"),
                     Header = dir.Name,
                     Tag = dir.FullName
                 };
@@ -103,11 +108,17 @@ namespace Lab2
             {
                 var item = new TreeViewItem
                 {
+                    ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmFileTreeView"),
                     Header = file.Name,
                     Tag = file.FullName
                 };
                 root.Items.Add(item);
             }
+        }
+
+        private void cmDirCreate_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
