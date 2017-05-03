@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Lab2
 {
@@ -21,6 +22,7 @@ namespace Lab2
     /// </summary>
     public partial class MainWindow : Window
     {
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -30,6 +32,15 @@ namespace Lab2
         {
             var folderBrowser = new FolderBrowserDialog() { Description = "Select directory to open."};
             folderBrowser.ShowDialog();
+            DirectoryInfo dirInfo = new DirectoryInfo(folderBrowser.SelectedPath);
+            makeTree(dirInfo);
+            //var root = new TreeViewItem
+            //{
+            //    Header = dirInfo.Name,
+            //    Tag = dirInfo.FullName
+            //};
+
+            //treeView.Items.Add(root);
         }
 
         private void exit_Click(object sender, RoutedEventArgs e)
@@ -37,5 +48,66 @@ namespace Lab2
             System.Windows.Application.Current.Shutdown();
         }
         
+        private void makeTree(DirectoryInfo dirInfo)
+        {
+            treeView.Items.Clear();
+            var root = new TreeViewItem
+            {
+                Header = dirInfo.Name,
+                Tag = dirInfo.FullName
+            };
+            treeView.Items.Add(root);
+            DirectoryInfo[] dirsInfo = dirInfo.GetDirectories();
+            foreach (var dir in dirsInfo)
+            {
+                var item = new TreeViewItem
+                {
+                    Header = dir.Name,
+                    Tag = dir.FullName
+                };
+                makeSubTree(dir, root);
+            }
+            FileInfo[] filesInfo = dirInfo.GetFiles();
+            foreach (var file in filesInfo)
+            {
+                var item = new TreeViewItem
+                {
+                    Header = file.Name,
+                    Tag = file.FullName
+                };
+                root.Items.Add(item);
+            }
+        }
+
+        private void makeSubTree(DirectoryInfo dirInfo, TreeViewItem parent)
+        {
+            var root = new TreeViewItem
+            {
+                Header = dirInfo.Name,
+                Tag = dirInfo.FullName
+            };
+            parent.Items.Add(root);
+            DirectoryInfo[] dirsInfo = dirInfo.GetDirectories();
+            foreach (var dir in dirsInfo)
+            {
+                var item = new TreeViewItem
+                {
+                    Header = dir.Name,
+                    Tag = dir.FullName
+                };
+                root.Items.Add(item);
+                makeSubTree(dir, root);
+            }
+            FileInfo[] filesInfo = dirInfo.GetFiles();
+            foreach (var file in filesInfo)
+            {
+                var item = new TreeViewItem
+                {
+                    Header = file.Name,
+                    Tag = file.FullName
+                };
+                root.Items.Add(item);
+            }
+        }
     }
 }

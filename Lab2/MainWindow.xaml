@@ -9,6 +9,11 @@
                 <MenuItem Header="_Exit" Click="exit_Click"/>
             </MenuItem>
         </Menu>
+        <TreeView Name="treeView" DockPanel.Dock="Left">
+            <TreeView>
+                
+            </TreeView>
+        </TreeView>
     </DockPanel>
     
 </Window>
