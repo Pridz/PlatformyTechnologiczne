@@ -110,16 +110,32 @@ namespace Lab2
 
         private void cmDirDelete_Click(object sender, RoutedEventArgs e)
         {
-            TreeViewItem item1 = findItem((TreeViewItem)treeView.Items.GetItemAt(0));
-            TreeViewItem parent = (TreeViewItem)item1.Parent;            
-            if (item1.Items.Count != 0)
+            TreeViewItem item = findItem((TreeViewItem)treeView.Items.GetItemAt(0));
+            if (treeView.SelectedItem == treeView.Items.GetItemAt(0))
+            {                
+                if (item.Items.Count != 0)
+                {
+                    deleteInteriorOfDirectory(item);
+                }
+                treeView.Items.Remove(item);
+                removeReadOnlyAttributeIfFileIsReadOnly(item.Tag.ToString());
+                Directory.Delete(item.Tag.ToString());
+                treeView.Items.Refresh();
+            }
+            else
             {
-                deleteInteriorOfDirectory(item1);
-            }            
-            parent.Items.Remove(item1);
-            Directory.Delete(item1.Tag.ToString());
-            parent.Items.Refresh();
-            parent.UpdateLayout();
+                TreeViewItem parent = (TreeViewItem)item.Parent;            
+                if (item.Items.Count != 0)
+                {
+                    deleteInteriorOfDirectory(item);
+                }            
+                parent.Items.Remove(item);
+                removeReadOnlyAttributeIfFileIsReadOnly(item.Tag.ToString());
+                Directory.Delete(item.Tag.ToString());
+                parent.Items.Refresh();
+                parent.UpdateLayout();
+
+            }
             treeView.UpdateLayout();
         }
 
@@ -130,6 +146,7 @@ namespace Lab2
             //TreeViewItem parent = findItemsParent((TreeViewItem)treeView.Items.GetItemAt(0));
             TreeViewItem parent =  (TreeViewItem)item1.Parent;
             parent.Items.Remove(item1);
+            removeReadOnlyAttributeIfFileIsReadOnly(item.Tag.ToString());
             File.Delete(item.Tag.ToString());
             parent.Items.Refresh();
             parent.UpdateLayout();
@@ -148,20 +165,17 @@ namespace Lab2
                 {
                     deleteInteriorOfDirectory(node);
                     item.Items.Remove(node);
+                    removeReadOnlyAttributeIfFileIsReadOnly(node.Tag.ToString());
                     Directory.Delete(node.Tag.ToString());
                 }
                 else if (File.Exists(node.Tag.ToString()))
                 {
                     item.Items.Remove(node);
+                    removeReadOnlyAttributeIfFileIsReadOnly(node.Tag.ToString());
                     File.Delete(node.Tag.ToString());
                 }
             }
-        }
-
-        private void printItems()
-        {
-
-        }
+        }        
 
         private TreeViewItem findItem(TreeViewItem item)
         {
@@ -192,6 +206,29 @@ namespace Lab2
 
         private bool isSelectedItem(string path, TreeViewItem item) { return ((string)item.Tag) == path; }
 
-        
+        private void removeReadOnlyAttributeIfFileIsReadOnly(string path)
+        {
+            if (isReadOnly(path))
+            {
+                removeReadOnlyAttribute(path, File.GetAttributes(path));
+            }
+        }
+
+        public static bool isReadOnly(string path)
+        {
+            return (File.GetAttributes(path) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly;
+        }
+
+        private void removeReadOnlyAttribute(string path, FileAttributes attributes)
+        {
+            attributes = RemoveAttribute(attributes, FileAttributes.ReadOnly);
+            File.SetAttributes(path, attributes);
+        }
+
+        private static FileAttributes RemoveAttribute(FileAttributes attributes, FileAttributes attributesToRemove)
+        {
+            return attributes & ~attributesToRemove;
+        }
+
     }
 }
