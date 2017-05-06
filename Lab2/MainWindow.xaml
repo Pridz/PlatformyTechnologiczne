@@ -5,11 +5,11 @@
     <Window.Resources>
         <ContextMenu x:Key="cmDirTreeView">
             <MenuItem Header="Create" Click="cmDirCreate_Click"/>
-            <MenuItem Header="Delete"/>
+            <MenuItem Header="Delete" Click="cmDirDelete_Click"/>
         </ContextMenu>
         <ContextMenu x:Key="cmFileTreeView">
             <MenuItem Header="Open"/>
-            <MenuItem Header="Delete"/>
+            <MenuItem Header="Delete" Click="cmFileDelete_Click"/>
         </ContextMenu>
     </Window.Resources>
     <DockPanel>
