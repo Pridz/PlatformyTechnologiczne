@@ -105,7 +105,8 @@ namespace Lab2
 
         private void cmDirCreate_Click(object sender, RoutedEventArgs e)
         {
-            
+            FileForm subWindow = new FileForm();
+            subWindow.Show();
         }
 
         private void cmDirDelete_Click(object sender, RoutedEventArgs e)
