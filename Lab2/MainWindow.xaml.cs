@@ -31,16 +31,11 @@ namespace Lab2
         private void open_Click(object sender, RoutedEventArgs e)
         {
             var folderBrowser = new FolderBrowserDialog() { Description = "Select directory to open."};
-            folderBrowser.ShowDialog();
-            DirectoryInfo dirInfo = new DirectoryInfo(folderBrowser.SelectedPath);
-            makeTree(dirInfo);
-            //var root = new TreeViewItem
-            //{
-            //    Header = dirInfo.Name,
-            //    Tag = dirInfo.FullName
-            //};
-
-            //treeView.Items.Add(root);
+            if (folderBrowser.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(folderBrowser.SelectedPath);
+                makeTree(dirInfo);
+            }
         }
 
         private void exit_Click(object sender, RoutedEventArgs e)
@@ -113,7 +108,7 @@ namespace Lab2
                 FileInfo file = new FileInfo(pathToNewFile);
                 var item = new TreeViewItem
                 {
-                    ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmDirTreeView"),
+                    ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmFileTreeView"),
                     Header = file.Name,
                     Tag = file.FullName
                 };
@@ -124,7 +119,7 @@ namespace Lab2
                 DirectoryInfo dir = new DirectoryInfo(pathToNewFile);
                 var item = new TreeViewItem
                 {
-                    ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmFileTreeView"),
+                    ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmDirTreeView"),
                     Header = dir.Name,
                     Tag = dir.FullName
                 };
@@ -271,5 +266,78 @@ namespace Lab2
             return attributes & ~attributesToRemove;
         }
 
+        private void treeView_Click(object sender, RoutedEventArgs e)
+        {
+            if (treeView.SelectedItem != null)
+            {
+                attributesOfSelectedFile.Text = attributesOfFile((string)((TreeViewItem)treeView.SelectedItem).Tag);
+            }
+        }
+
+        private string attributesOfFile(string path)
+        {
+            char[] status = new char[4];
+            hyphenCharArray(status);
+            if (isReadOnly(path))
+            {
+                setReadOnlyAttribute(status);
+            }
+            if (isArchive(path))
+            {
+                setArchiveAttribute(status);
+            }
+            if (isSystem(path))
+            {
+                setSystemAttribute(status);
+            }
+            if (isHidden(path))
+            {
+                setHiddenAttribute(status);
+            }
+            return new string(status);
+        }
+
+        private void hyphenCharArray(char[] charArray)
+        {
+            for (int i = 0; i < charArray.Length; i++)
+            {
+                charArray[i] = '-';
+            }
+        }
+
+        private void setReadOnlyAttribute(char[] status)
+        {
+            status[0] = 'r';
+        }
+
+        private bool isArchive(string path)
+        {
+           return (File.GetAttributes(path) & FileAttributes.Archive) == FileAttributes.Archive;
+        }
+
+        private void setArchiveAttribute(char[] status)
+        {
+            status[1] = 'a';
+        }
+
+        private bool isSystem(string path)
+        {
+            return (File.GetAttributes(path) & FileAttributes.System) == FileAttributes.System;
+        }
+
+        private void setSystemAttribute(char[] status)
+        {
+            status[2] = 's';
+        }
+
+        private bool isHidden(string path)
+        {
+            return (File.GetAttributes(path) & FileAttributes.Hidden) == FileAttributes.Hidden;
+        }
+
+        private void setHiddenAttribute(char[] status)
+        {
+            status[3] = 'h';
+        }
     }
 }

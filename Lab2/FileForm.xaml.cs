@@ -51,7 +51,7 @@ namespace Lab2
                 {
                     fullPath = path + '\\' + txtName.Text;
                     File.Create(fullPath);
-                    setCheckedAttributes(File.GetAttributes(fullPath));
+                    File.SetAttributes(fullPath, getCheckedAttributes(File.GetAttributes(fullPath)));
                     newFilePath = fullPath;
                 }
                 else
@@ -65,7 +65,7 @@ namespace Lab2
                 {
                     fullPath = path + '\\' + txtName.Text;
                     Directory.CreateDirectory(fullPath);
-                    setCheckedAttributes(File.GetAttributes(fullPath));
+                    File.SetAttributes(fullPath, getCheckedAttributes(File.GetAttributes(fullPath)));                    
                     newFilePath = fullPath;
                 }
                 else
@@ -115,7 +115,7 @@ namespace Lab2
             return "^[a-zA-Z0-9_~-]{1,8}$";
         }
 
-        private void setCheckedAttributes(FileAttributes attributes)
+        private FileAttributes getCheckedAttributes(FileAttributes attributes)
         {
             if (isReadOnlyCheckBoxChecked())
             {
@@ -133,6 +133,7 @@ namespace Lab2
             {
                 attributes = setSystemAttribute(attributes);
             }
+            return attributes;
         }
 
         private bool isReadOnlyCheckBoxChecked()
