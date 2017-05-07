@@ -180,6 +180,23 @@ namespace Lab2
             //treeView.Items.Clear();
         }
 
+        private void cmFileOpen_Click(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem item = ((TreeViewItem)treeView.SelectedItem);           
+            try
+            {
+                using (StreamReader sr = new StreamReader((string)item.Tag))
+                {
+                    String text = sr.ReadToEnd();
+                    openedFileTextBlock.Text = text;
+                }
+            }
+            catch(Exception ex)
+            {
+                openedFileTextBlock.Text = "Could not read the file";
+            }
+        }
+
         private void deleteInteriorOfDirectory(TreeViewItem item)
         {
             while (item.Items.Count != 0)
