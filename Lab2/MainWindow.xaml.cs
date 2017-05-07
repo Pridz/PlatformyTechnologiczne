@@ -105,8 +105,31 @@ namespace Lab2
 
         private void cmDirCreate_Click(object sender, RoutedEventArgs e)
         {
-            FileForm subWindow = new FileForm();
-            subWindow.Show();
+            FileForm subWindow = new FileForm((string)((TreeViewItem)treeView.SelectedItem).Tag);
+            subWindow.ShowDialog();
+            string pathToNewFile = subWindow.getNewFilePath();
+            if (File.Exists(pathToNewFile))
+            {
+                FileInfo file = new FileInfo(pathToNewFile);
+                var item = new TreeViewItem
+                {
+                    ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmDirTreeView"),
+                    Header = file.Name,
+                    Tag = file.FullName
+                };
+                ((TreeViewItem)treeView.SelectedItem).Items.Add(item);
+            }
+            else if (Directory.Exists(pathToNewFile))
+            {
+                DirectoryInfo dir = new DirectoryInfo(pathToNewFile);
+                var item = new TreeViewItem
+                {
+                    ContextMenu = (System.Windows.Controls.ContextMenu)this.FindResource("cmFileTreeView"),
+                    Header = dir.Name,
+                    Tag = dir.FullName
+                };
+                ((TreeViewItem)treeView.SelectedItem).Items.Add(item);
+            }
         }
 
         private void cmDirDelete_Click(object sender, RoutedEventArgs e)

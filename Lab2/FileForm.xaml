@@ -25,5 +25,6 @@
             <Button Content="_Create" Width="60" Click="create_Click"/>
             <Button Grid.Column="1" Content="_Cancel" Click="cancel_Click" Width="60"/>
         </Grid>
+        <Label Name="statusLabel" Height="35" HorizontalAlignment="Center" Width="150"/>
     </StackPanel>
 </Window>
