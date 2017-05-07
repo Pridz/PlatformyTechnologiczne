@@ -3,9 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="FileForm" Height="300" Width="300">
     <DockPanel>
-        <Label DockPanel.Dock="Top" Content="_Name" Target="{Binding ElementName=txtName}" Height="50"/>
-        <TextBox Name="txtName" DockPanel.Dock="Top" Height="50"/>
-        <Button Content="_Create" DockPanel.Dock="Bottom" Click="create_Click"/>
-        <Button Content="_Cancel" DockPanel.Dock="Bottom" Click="cancel_Click"/>
+        <WrapPanel DockPanel.Dock="Top" Height="50">
+            <Label DockPanel.Dock="Top" Content="_Name:" Target="{Binding ElementName=txtName}" Height="35"/>
+            <TextBox Name="txtName" DockPanel.Dock="Top" Width="200" Height="35"/>
+        </WrapPanel>
+        <Grid DockPanel.Dock="Bottom" Height="25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="_Create" Width="60" Click="create_Click"/>
+            <Button Grid.Column="1" Content="_Cancel" DockPanel.Dock="Bottom" Click="cancel_Click" Width="60"/>
+        </Grid>
     </DockPanel>
 </Window>
