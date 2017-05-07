@@ -5,5 +5,7 @@
     <DockPanel>
         <Label DockPanel.Dock="Top" Content="_Name" Target="{Binding ElementName=txtName}" Height="50"/>
         <TextBox Name="txtName" DockPanel.Dock="Top" Height="50"/>
+        <Button Content="_Create" DockPanel.Dock="Bottom" Click="create_Click"/>
+        <Button Content="_Cancel" DockPanel.Dock="Bottom" Click="cancel_Click"/>
     </DockPanel>
 </Window>

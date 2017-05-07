@@ -23,5 +23,15 @@ namespace Lab2
         {
             InitializeComponent();
         }
+        private void cancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void create_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }
